@@ -1,5 +1,9 @@
 <template>
+  
+
   <div id="app">
+
+
     <div class="bg-white items-center justify-center py-5">
       <h4 class="text-2xl text-center justify-center font-semibold text-[#3A4646]">Tour details</h4>
       <h4 class="text-xl text-center justify-center font-semibold text-[#3A4646]">{{ this.detail.Tour.nameTrip }}</h4>

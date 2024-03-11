@@ -1,7 +1,25 @@
+<script setup>
+import HeaderWeb from "../components/HeaderWeb.vue";
+import CheckBill from "../screen/CheckBill.vue";
+</script>
+
 <template>
   <div id="app">
+
+    <button
+      class="flex justify-end w-full p-3"
+      v-if="showCheckBill"
+      @click="toggleCheckBill"
+    >
+      <i class="fa-solid fa-times" style="color: red"></i>
+    </button>
+    <CheckBill v-if="showCheckBill" />
+    <HeaderWeb :toggleCheckBill="toggleCheckBill" v-if="!showCheckBill" />
     <!--room and calendar-->
-    <div class="m-2">
+
+
+    
+    <div class="m-2" :style="{ display: !showCheckBill ? 'block' : 'none' }">
       <div class="my-4">
         <!--calendar-->
         <div class="flex flex-row items-center justify-center">
@@ -163,6 +181,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      showCheckBill : false,
       places: [],
       today: "",
       month: 0,
@@ -401,6 +420,9 @@ export default {
       } catch (error) {
         console.error("Error fetching comments:", error);
       }
+    },
+    toggleCheckBill() {
+      this.showCheckBill = !this.showCheckBill;
     },
   },
 };

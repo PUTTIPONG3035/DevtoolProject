@@ -68,6 +68,14 @@ export default {
     };
   },
 
+  created() {
+      this.user = localStorage.getItem("token")
+      if(this.user){
+        this.$router.push("/");
+        
+      }    
+  },
+
   methods: {
     register() {
       if (this.password === this.confirmPassword && this.password != '' && this.confirmPassword != '' && this.email != '') {

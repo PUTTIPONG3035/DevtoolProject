@@ -14,7 +14,7 @@ import CheckBill from "../screen/CheckBill.vue";
       <i class="fa-solid fa-times" style="color: red"></i>
     </button>
     <CheckBill v-if="showCheckBill" />
-    <HeaderWeb :toggleCheckBill="toggleCheckBill" v-if="!showCheckBill" />
+    <HeaderWeb :toggleCheckBill="toggleCheckBill" :title="'Search'" v-if="!showCheckBill" />
     <div class="relative flex justify-center p-5" v-if="!showCheckBill">
       <input
         type="text"
@@ -144,12 +144,15 @@ export default {
     };
   },
   created() {
+    
+
     axios
       .get("http://localhost:4000/places")
       .then((response) => {
         this.responseData = response.data;
         this.items2 = this.responseData;
         console.log(this.responseData);
+
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -171,7 +174,7 @@ export default {
       return this.items2.filter((item) => {
         const matchesSearch = item.name
           .toLowerCase()
-          .includes(this.searchQuery.toLowerCase());
+          .includes(this.searchQuery.toLowerCase()) ||  item.province.toLowerCase().includes(this.searchQuery.toLowerCase());
         const matchesCategory =
           !this.selectedCategory ||
           item.category.toLowerCase() === this.selectedCategory.toLowerCase();

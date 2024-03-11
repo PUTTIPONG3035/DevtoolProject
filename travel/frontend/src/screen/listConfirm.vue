@@ -1,9 +1,25 @@
+<script setup>
+import HeaderWeb from "../components/HeaderWeb.vue";
+import CheckBill from "../screen/CheckBill.vue";
+</script>
+
 <template>
   <div>
-    <header>
+
+
+    <button
+      class="flex justify-end w-full p-3"
+      v-if="showCheckBill"
+      @click="toggleCheckBill"
+    >
+      <i class="fa-solid fa-times" style="color: red"></i>
+    </button>
+    <CheckBill v-if="showCheckBill" />
+    <HeaderWeb :toggleCheckBill="toggleCheckBill" v-if="!showCheckBill" />
+    <!-- <header>
       <i class="fa fa-bars"></i>
       <label class="text-2xl">List Your Trip</label>
-    </header>
+    </header> -->
 
     <!-- Name -->
     <div class="mx-5 my-5">
@@ -65,6 +81,7 @@ export default {
   props: ['myProp'],
   data() {
     return {
+      showCheckBill : false,
       places: [],
       nameplace: "",
     };
@@ -87,7 +104,12 @@ export default {
       } catch (error) {
         console.error('Error fetching comments:', error);
       }
-    }
+    },
+
+
+    toggleCheckBill() {
+      this.showCheckBill = !this.showCheckBill;
+    },
   },
 };
 </script>
