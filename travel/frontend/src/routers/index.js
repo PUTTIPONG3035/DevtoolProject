@@ -11,6 +11,7 @@ import AllTourCalendar from '@/screen/AllTourCalendar.vue'
 import DetailEachPage from '@/screen/DetailEachPage.vue'
 import Home from '@/screen/Home.vue'
 import Tour from '@/screen/Tour.vue'
+import TourDetail from '@/screen/TourDetails.vue'
 // import Home from '@/components/Home.vue'
 
 const router = createRouter({
@@ -62,6 +63,11 @@ const router = createRouter({
         {
             path : '/Tour/:name',
             component : Tour,
+        },
+        //---------ไม่ใช้------------
+        {
+            path : '/Tourdetail',
+            component : TourDetail,
         },
 
     ]
