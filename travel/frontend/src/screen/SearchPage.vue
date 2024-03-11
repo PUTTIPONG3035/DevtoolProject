@@ -1,12 +1,21 @@
 <script setup>
 // import HeaderWeb from '../components/HeaderWeb.vue'
 import HeaderWeb from "../components/HeaderWeb.vue";
+import CheckBill from "../screen/CheckBill.vue";
 </script>
 
 <template>
   <div>
-    <HeaderWeb />
-    <div class="relative flex justify-center p-5">
+    <button
+      class="flex justify-end w-full p-3"
+      v-if="showCheckBill"
+      @click="toggleCheckBill"
+    >
+      <i class="fa-solid fa-times" style="color: red"></i>
+    </button>
+    <CheckBill v-if="showCheckBill" />
+    <HeaderWeb :toggleCheckBill="toggleCheckBill" v-if="!showCheckBill" />
+    <div class="relative flex justify-center p-5" v-if="!showCheckBill">
       <input
         type="text"
         placeholder="Search"
@@ -19,7 +28,7 @@ import HeaderWeb from "../components/HeaderWeb.vue";
       </div>
     </div>
 
-    <div class="relative">
+    <div class="relative" v-show="!showCheckBill">
       <div class="mx-5">
         <h1 class="text-[26px] font-bold text-[#121212]">Category</h1>
       </div>
@@ -29,7 +38,7 @@ import HeaderWeb from "../components/HeaderWeb.vue";
             v-for="(item, index) in items"
             :key="index"
             class="flex flex-col items-center"
-            @click="filterCategory(item.name)"
+            @click="filterCategory(item.cate)"
           >
             <img
               class="rounded-full w-[80px] h-[80px]"
@@ -44,8 +53,15 @@ import HeaderWeb from "../components/HeaderWeb.vue";
       </div>
     </div>
 
-    <div class="relative">
-      <h1 class="text-[26px] font-bold text-black mx-5">Recommend</h1>
+    <div class="relative" v-if="!showCheckBill">
+      <div class="flex items-center">
+        <h1 class="text-[26px] font-bold text-black mx-5">Recommend</h1>
+        <div class="w-full justify-end items-center p-5 flex">
+          <router-link to="/listYourtrips"> <p>Trip</p> </router-link>
+          <i class="fa-solid fa-chevron-right" style="color: #6f7789"> </i>
+        </div>
+      </div>
+
       <div class="flex flex-wrap justify-center m-5 grid grid-cols-2 gap-4">
         <div v-for="(item, index) in filteredItems" :key="index">
           <div
@@ -97,21 +113,31 @@ import HeaderWeb from "../components/HeaderWeb.vue";
 import axios from "axios";
 
 export default {
+  // emits: ['showBill'],
   data() {
     return {
       searchQuery: "",
       responseData: "",
       selectedCategory: null,
+      showCheckBill: false,
       items: [
         {
           imageUrl:
             "https://www.photoschoolthailand.com/wp-content/uploads/2020/02/Beach-photography_2.jpg",
+          name: "all",
+          cate: "",
+        },
+        {
+          imageUrl:
+            "https://www.photoschoolthailand.com/wp-content/uploads/2020/02/Beach-photography_2.jpg",
           name: "sea",
+          cate: "sea",
         },
         {
           imageUrl:
             "https://www.photoschoolthailand.com/wp-content/uploads/2020/02/Beach-photography_2.jpg",
           name: "moutain",
+          cate: "moutain",
         },
       ],
       items2: [],
@@ -132,15 +158,16 @@ export default {
 
   methods: {
     filterCategory(category) {
-      console.log(category)
+      console.log(category);
       this.selectedCategory = category.toLowerCase();
+    },
+    toggleCheckBill() {
+      this.showCheckBill = !this.showCheckBill;
     },
   },
 
   computed: {
     filteredItems() {
-
-      console.log( this.items2[0])
       return this.items2.filter((item) => {
         const matchesSearch = item.name
           .toLowerCase()
@@ -148,6 +175,9 @@ export default {
         const matchesCategory =
           !this.selectedCategory ||
           item.category.toLowerCase() === this.selectedCategory.toLowerCase();
+
+        // const matchesProvince = item.province.toLowerCase().includes(this.searchQuery.toLowerCase());
+
         return matchesSearch && matchesCategory;
       });
     },
